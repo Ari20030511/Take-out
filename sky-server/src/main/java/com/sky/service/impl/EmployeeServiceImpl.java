@@ -67,23 +67,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * 新增员工
+     * 新增员工 insert
      * @param employeeDTO
      */
     public void save(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
         employee.setStatus(StatusConstant.ENABLE);
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
-        employee.setUpdateUser(BaseContext.getCurrentId());
-        employee.setCreateUser(BaseContext.getCurrentId());
         employeeMapper.insert(employee);
     }
 
     /**
-     * 分页查询
+     * 分页查询 select
      * @param employeePageQueryDTO
      * @return
      */
@@ -101,22 +97,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * 根据id启用或者禁用某个账户
+     * 根据id启用或者禁用某个账户 update
      * @param status
      * @param id
      */
     @Override
     public void startOrStop(Integer status, Long id) {
         /*Employee employee = Employee.builder()
-                        .id(id)
-                                .status(status)
-                                        .updateTime(LocalDateTime.now())
-                                                .build();*/
+                  .id(id)
+                  .status(status)
+                  .updateTime(LocalDateTime.now())
+                  .build();*/
         Employee employee = new Employee();
         employee.setStatus(status);
         employee.setId(id);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.startOrStop(employee);
     }
 
@@ -133,15 +127,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * 修改员工数据
+     * 修改员工数据 update
      * @param employeeDTO
      */
     @Override
     public void update(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
-        employee.setUpdateUser(BaseContext.getCurrentId());
-        employee.setUpdateTime(LocalDateTime.now());
         employeeMapper.update(employee);
     }
 
